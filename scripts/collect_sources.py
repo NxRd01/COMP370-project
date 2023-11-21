@@ -20,10 +20,13 @@ def main():
     
     #keep only the sources that are from the us or canada
     sources = [source for source in sources['sources'] if source['country'] == 'us' or source['country'] == 'ca']
+    
     #Keep only the sources that have 'entertainment' in their description
     # sources = [source for source in sources if keyword in source['description'].lower()]
     
+    #saves the sources id in a file
     sources_name_list = [source['id'] for source in sources]
+    
     with open(Path(__file__).parent.parent / 'data' / 'sources_id.txt','w') as f:
         f.write(','.join(sources_name_list))
     
