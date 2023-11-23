@@ -26,7 +26,7 @@ def main():
     
     for i in range(len(articles_new)):
         articles_new[i]['source'] = articles_new[i]['source']['name']
-
+        
     #sample articles
     sampled_articles = random.sample(articles_new, args.num)
     
@@ -36,6 +36,7 @@ def main():
         csv_writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
         csv_writer.writerows([[article['title'],article['description'],article['source']] for article in sampled_articles])
     
+    print(f"Done, sampled {args.num}/{len(articles_new)} articles and saved to /data/{args.output}")
     
 
 if __name__ == '__main__':

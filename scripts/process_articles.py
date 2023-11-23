@@ -1,6 +1,7 @@
 import json 
 from pathlib import Path
 import argparse
+TOTAL_ARTICLES = 0 
 
 def main():
     
@@ -18,7 +19,8 @@ def main():
         queries = json.load(f)
     
     keyword = args.keyword.lower()
-    total_articles = 0 
+
+    
     
     for query in queries:
         query['articles'] = [article for article in query['articles'] if 
@@ -26,14 +28,37 @@ def main():
                              (article['description'] and keyword in article['description'].lower())]
         
         query['totalResults'] = len(query['articles'])
-        total_articles += query['totalResults']
+    
+    def remove_duplicates(data):
+        unique_titles = set()
+        unique_data = []
+        total_articles =0 
+        for entry in data:
+            articles = entry.get("articles", [])
+            unique_articles = []
+
+            for article in articles:
+                title = article["title"]
+                if title not in unique_titles:
+                    unique_titles.add(title)
+                    unique_articles.append(article)
+                    total_articles += 1
+
+            if unique_articles:
+                entry["articles"] = unique_articles
+                unique_data.append(entry)
+
+        return unique_data,total_articles
+    
+    queries,TOTAL_ARTICLES = remove_duplicates(queries)
+            
         
     with open(Path(__file__).parent.parent / 'data' / json_output,'w') as r:
         json.dump(queries,r,indent=4)
         
     
             
-    print(f"Done, found {total_articles} articles containing the keyword {keyword} in the title or description \n results saved to /data/{json_output}")
+    print(f"Done, found {TOTAL_ARTICLES} articles containing the keyword {keyword} in the title or description \n results saved to /data/{json_output}")
 
 if __name__ == '__main__':
     main()  

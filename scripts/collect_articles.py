@@ -25,7 +25,7 @@ def main():
     newsapi = NewsApiClient(api_key=apikey)
     
     #Get the articles from the sources for each day 
-    current_date = datetime.today() - timedelta(months=1)
+    current_date = datetime.today() - timedelta(days=30)
     day_after = current_date + timedelta(days=1)
     articles_list = []
     query = args.query
