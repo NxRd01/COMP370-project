@@ -2,6 +2,7 @@ import argparse
 import json
 import random
 from pathlib import Path
+import csv
 
 def main():
     
@@ -30,9 +31,10 @@ def main():
     sampled_articles = random.sample(articles_new, args.num)
     
     #turn into tsv file
-    with open(Path(__file__).parent.parent / 'data' / args.output, 'w',encoding='utf-8') as f:
-        for article in sampled_articles:
-            f.write(article['title'] + '\t' + article['description'] + '\t' + article['source'] + '\n')
+    with open(Path(__file__).parent.parent / 'data' / args.output, mode='w',newline='', encoding='utf-8') as f:
+        f.write('title,description,source\n')
+        csv_writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
+        csv_writer.writerows([[article['title'],article['description'],article['source']] for article in sampled_articles])
     
     
 
