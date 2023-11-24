@@ -26,7 +26,9 @@ def main():
     
     #Get the articles from the sources for each day 
     current_date = datetime.today() - timedelta(days=30)
-    day_after = current_date + timedelta(days=1)
+    current_date_early = current_date.combine(current_date,datetime.min.time())
+    current_date_latest = current_date.combine(current_date,datetime.max.time())
+    
     articles_list = []
     query = args.query
     output = args.output
@@ -36,12 +38,13 @@ def main():
                                           sources=sources,
                                           language='en',
                                           sort_by='relevancy',
-                                          from_param=current_date,
-                                          to=day_after,
+                                          from_param=current_date_early,
+                                          to=current_date_latest,
                                           page_size=100)
         articles_list.append(articles)
-        current_date = day_after
-        day_after = current_date + timedelta(days=1)
+        current_date_early =  current_date_early + timedelta(days=1)
+        current_date_latest = current_date_latest + timedelta(days=1)
+        current_date = current_date + timedelta(days=1)
         wait(1)
 
     with open(Path(__file__).parent.parent / 'data' / output,'w') as f:
