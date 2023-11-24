@@ -1,7 +1,6 @@
 import json 
 from pathlib import Path
 import argparse
-TOTAL_ARTICLES = 0 
 
 def main():
     
@@ -20,9 +19,10 @@ def main():
     
     keyword = args.keyword.lower()
 
-    
+    total_articles = 0
     
     for query in queries:
+        total_articles += len(query['articles'])
         query['articles'] = [article for article in query['articles'] if 
                              (article['title'] and keyword in article['title'].lower()) or
                              (article['description'] and keyword in article['description'].lower())]
@@ -50,7 +50,7 @@ def main():
 
         return unique_data,total_articles
     
-    queries,TOTAL_ARTICLES = remove_duplicates(queries)
+    queries,filtered = remove_duplicates(queries)
             
         
     with open(Path(__file__).parent.parent / 'data' / json_output,'w') as r:
@@ -58,7 +58,7 @@ def main():
         
     
             
-    print(f"Done, found {TOTAL_ARTICLES} articles containing the keyword {keyword} in the title or description \n results saved to /data/{json_output}")
+    print(f"Done, found {filtered}/{total_articles} articles containing the keyword {keyword} in the title or description \n results saved to /data/{json_output}")
 
 if __name__ == '__main__':
     main()  
