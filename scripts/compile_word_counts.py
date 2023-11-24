@@ -39,10 +39,8 @@ def compile_word_counts(data):
         word_counts[category] = {}
         # Compile word counts for titles
         title = data[data['category'] == category]['title'].str.split(expand=True).stack().value_counts()
-        title = title[title > 5]
         # Compile word counts for descriptions
         description = data[data['category'] == category]['description'].str.split(expand=True).stack().value_counts()
-        description = description[description > 5]
         # Convert dictionaries to Series
         title_series = pd.Series(title)
         description_series = pd.Series(description)

@@ -1,4 +1,3 @@
-import json
 import numpy as np
 
 def compute_tf_idf(word_counts):
@@ -13,6 +12,8 @@ def compute_tf_idf(word_counts):
     num_categories = len(categories)
     # Iterate over ponies
     for category in categories:
+        if category == 'NaN':
+            continue
         # Initialize TF-IDF for pony
         tf_idf[category] = []
         # Get pony words
