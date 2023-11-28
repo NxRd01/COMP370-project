@@ -2,6 +2,7 @@ import argparse
 import json
 import compile_word_counts
 import compute_lang
+import graph
 import pandas as pd
 
 def main():
@@ -20,11 +21,15 @@ def main():
     word_count = compile_word_counts.compile_word_counts(dialog)
     # Compute tf-idf scores
     tf_idf = compute_lang.compute_tf_idf(word_count)
-    # get top 10 words for each category
-    top_words = {category: [word for word, score in tf_idf[category][:10]] for category in tf_idf}
+    # get top 10 words for each category with their tf-idf scores
+    top_words = {}
+    for category in tf_idf.keys():
+        top_words[category] = tf_idf[category][:10]
     # Save tf-idf scores
     with open('data/tf_idf.json', 'w') as f:
         json.dump(top_words, f, indent=4)
+    # Create graph
+    graph.graph(top_words)
 
 if __name__ == '__main__':
     main()
