@@ -20,7 +20,7 @@ def main():
     
     #keep only the sources that are from the us or canada
     sources = [source for source in sources['sources'] if source['country'] == 'us' or source['country'] == 'ca']
-    
+    print(len([sources for source in sources if source['country'] == 'ca']))
     #Keep only the sources that have 'entertainment' in their description
     # sources = [source for source in sources if keyword in source['description'].lower()]
     

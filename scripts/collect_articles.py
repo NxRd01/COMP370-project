@@ -10,9 +10,15 @@ def main():
     
     parser = argparse.ArgumentParser()
     parser.add_argument('-q','--query',type=str,default='Taylor+AND+Swift',help='The query to search for')
+    parser.add_argument('-d','--days',type=int,default=30,help='The number of days to search for')
     parser.add_argument('output',type=str,default='articles.json',help='The name of the output file')
     args = parser.parse_args()
 
+    days = args.days
+    
+    if days > 30:
+        days = 30 
+        
     with open(Path(__file__).parent.parent / 'data' / 'apikey.txt','r') as f:
         apikey = f.read()
         apikey = apikey.strip()
@@ -25,7 +31,7 @@ def main():
     newsapi = NewsApiClient(api_key=apikey)
     
     #Get the articles from the sources for each day 
-    current_date = datetime.today() - timedelta(days=30)
+    current_date = datetime.today() - timedelta(days=days)
     current_date_early = current_date.combine(current_date,datetime.min.time())
     current_date_latest = current_date.combine(current_date,datetime.max.time())
     

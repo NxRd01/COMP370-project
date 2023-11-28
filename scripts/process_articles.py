@@ -5,9 +5,9 @@ import argparse
 def main():
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i','--input', type=str, default='articles.json', help='The name of the input file')
+    parser.add_argument('-i','--input', type=str, help='The name of the input file', required=True)
     parser.add_argument('-k','--keyword',type=str,default='Taylor Swift', help='The keyword to search for')
-    parser.add_argument('-o','--output', type=str, default='articlesv2.json', help='The name of the output file')
+    parser.add_argument('-o','--output', type=str, help='The name of the output file',required=True)
     args = parser.parse_args()
     
     
