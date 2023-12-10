@@ -23,6 +23,10 @@ def create_subplot_grid(tf_idf_data, category_names, grid_number):
         
         # Plot the data on the given axes
         ax.bar(df_sorted['Word'], df_sorted['TF-IDF Score'], color='skyblue')
+        if category_name == 'social interactionsrelations':
+            category_name = 'social interactions/relations'
+        elif category_name == 'musicachievements':
+            category_name = 'music/achievements'
         ax.set_title(category_name)
         ax.set_xlabel('Words')
         ax.set_ylabel('TF-IDF Score')
@@ -31,7 +35,7 @@ def create_subplot_grid(tf_idf_data, category_names, grid_number):
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust the layout to make room for the main title
 
     # Save the plot as a PNG file
-    plot_filename = f'images/{grid_number}.png'
+    plot_filename = f'images/tf_idf_graph_{grid_number}.png'
     plt.savefig(plot_filename)
     plt.close()  # Close the figure to avoid displaying it in the notebook
     

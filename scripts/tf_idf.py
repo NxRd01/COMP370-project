@@ -3,6 +3,7 @@ import json
 import compile_word_counts
 import compute_lang
 import graph
+import proportions
 import pandas as pd
 
 def main():
@@ -30,6 +31,8 @@ def main():
         json.dump(top_words, f, indent=4)
     # Create graph
     graph.graph(top_words)
+    # Create proportions
+    proportions.graph_proportions(data)
 
 if __name__ == '__main__':
     main()

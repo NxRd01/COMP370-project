@@ -52,6 +52,16 @@ def compile_word_counts(data):
         sorted_dict = sorted_combined.to_dict()
         # Convert values in dictionary to integers
         word_counts[category] = {k: int(v) for k, v in sorted_dict.items()}
+        # Remove "Taylor" and "Swift" from word counts
+        word_counts[category].pop('taylor', None)
+        word_counts[category].pop('swift', None)
+        # Only keep top 10 words for each category
+        # If words have same count as 10th word, keep them
+        if len(word_counts[category]) > 10:
+            # Get 10th word count
+            tenth_word_count = list(word_counts[category].values())[9]
+            # Keep words with same count as 10th word
+            word_counts[category] = {k: v for k, v in word_counts[category].items() if v >= tenth_word_count}
         
     # Save word counts to json file
     with open('data/word_counts.json', 'w') as f:
